@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Employee Portal — Register</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+
+    <!-- ── Navigation Bar ── -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="icon"></span> Employee Portal
+        </div>
+        <div class="navbar-links">
+            <h:form>
+                <h:commandButton value="Employee Login"
+                                 action="login?faces-redirect=true"
+                                 styleClass="nav-btn"/>
+            </h:form>
+            <h:form>
+                <h:commandButton value=" View All Employees"
+                                 action="#{employeeBean.viewEmployees}"
+                                 styleClass="nav-btn"/>
+            </h:form>
+        </div>
+    </nav>
+
+    <!-- ── Main Content ── -->
+    <div class="container">
+
+        <div class="card">
+            <h2 class="card-title">👤 Register New Employee</h2>
+
+            <h:form enctype="multipart/form-data" id="regForm">
+
+                <!-- Messages -->
+                <div class="messages">
+                    <h:messages layout="list" rendered="#{not empty facesContext.messageList}">
+                        <f:facet name="errorClass">msg-error</f:facet>
+                        <f:facet name="infoClass">msg-info</f:facet>
+                        <f:facet name="warnClass">msg-warn</f:facet>
+                    </h:messages>
+                    <!-- Individual messages with styling -->
+                    <h:panelGroup rendered="#{not empty facesContext.messageList}">
+                        <ui:repeat xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                                   value="#{facesContext.messageList}" var="msg">
+                            <div class="#{msg.severity.ordinal == 0 ? 'msg-info' :
+                                          msg.severity.ordinal == 1 ? 'msg-warn' : 'msg-error'}">
+                                <h:outputText value="#{msg.summary}: #{msg.detail}"/>
+                            </div>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- Employee ID -->
+                    <div class="form-group">
+                        <label for="empId">Employee ID *</label>
+                        <h:inputText id="empId"
+                                     value="#{employeeBean.employeeId}"
+                                     placeholder="e.g. EMP-001"
+                                     required="true"
+                                     requiredMessage="Employee ID is required."/>
+                        <h:message for="empId" styleClass="msg-error"/>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="empName">Full Name *</label>
+                        <h:inputText id="empName"
+                                     value="#{employeeBean.name}"
+                                     placeholder="Enter full name"
+                                     required="true"
+                                     requiredMessage="Name is required."/>
+                        <h:message for="empName" styleClass="msg-error"/>
+                    </div>
+
+                    <!-- Father's Name -->
+                    <div class="form-group">
+                        <label for="fName">Father's Name</label>
+                        <h:inputText id="fName"
+                                     value="#{employeeBean.fathersName}"
+                                     placeholder="Enter father's name"/>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <h:inputText id="email"
+                                     value="#{employeeBean.email}"
+                                     placeholder="name@company.com"
+                                     required="true"
+                                     requiredMessage="Email is required.">
+                            <f:validateRegex pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"/>
+                        </h:inputText>
+                        <h:message for="email" styleClass="msg-error"/>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="form-group">
+                        <label for="contact">Contact Number</label>
+                        <h:inputText id="contact"
+                                     value="#{employeeBean.contact}"
+                                     placeholder="+91 9876543210"/>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label>Gender *</label>
+                        <div class="radio-group">
+                            <h:selectOneRadio id="gender"
+                                              value="#{employeeBean.gender}"
+                                              required="true"
+                                              requiredMessage="Please select a gender."
+                                              layout="pageDirection"
+                                              styleClass="radio-group">
+                                <f:selectItem itemValue="Male"   itemLabel="Male"/>
+                                <f:selectItem itemValue="Female" itemLabel="Female"/>
+                                <f:selectItem itemValue="Other"  itemLabel="Other"/>
+                            </h:selectOneRadio>
+                        </div>
+                        <h:message for="gender" styleClass="msg-error"/>
+                    </div>
+
+                    <!-- Profile Image -->
+                    <div class="form-group full-width">
+                        <label for="photo">Profile Photo</label>
+                        <h:inputFile id="photo"
+                                     value="#{employeeBean.uploadedImage}"
+                                     accept="image/*"/>
+                        <small style="color:#718096; font-size:0.78rem;">
+                            Accepted formats: JPG, PNG, GIF, WEBP (max 5 MB)
+                        </small>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="form-actions">
+                        <h:commandButton value="✔ Register Employee"
+                                         action="#{employeeBean.register}"
+                                         styleClass="btn btn-success"/>
+                        <h:commandButton value="✖ Reset"
+                                         type="reset"
+                                         immediate="true"
+                                         styleClass="btn btn-outline"/>
+                    </div>
+
+                </div><!-- /form-grid -->
+
+            </h:form>
+        </div><!-- /card -->
+
+    </div><!-- /container -->
+
+</h:body>
+</html>

@@ -1,0 +1,564 @@
+/* =========================================================
+   Employee Portal — style.css
+   ========================================================= */
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    color: #2d3748;
+    min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ── Top Navigation Bar ── */
+.navbar {
+    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+    color: #fff;
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.navbar-brand span.icon { font-size: 1.6rem; }
+
+.navbar-links { display: flex; gap: 1rem; }
+
+.nav-btn {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.28); }
+
+/* ── Page Container ── */
+.container {
+    max-width: 960px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+
+.container-wide {
+    max-width: 1200px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+
+.login-container {
+    max-width: 520px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+}
+
+.login-card {
+    padding: 2rem;
+}
+
+.login-grid {
+    grid-template-columns: 1fr;
+}
+
+/* ── Card ── */
+.card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ── Form ── */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-group.full-width { grid-column: 1 / -1; }
+
+.form-group label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="file"],
+.form-group select,
+.form-group textarea {
+    padding: 0.6rem 0.85rem;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 7px;
+    font-size: 0.95rem;
+    color: #2d3748;
+    background: #f7fafc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66,153,225,0.15);
+    background: #fff;
+}
+
+.form-group input[type="file"] {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+/* Radio gender group */
+.radio-group {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.radio-group label {
+    font-size: 0.95rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+}
+
+/* ── Buttons ── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 7px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.2px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2b6cb0, #3182ce);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(49,130,206,0.35);
+}
+.btn-primary:hover { background: linear-gradient(135deg, #2c5282, #2b6cb0); box-shadow: 0 4px 12px rgba(49,130,206,0.45); }
+
+.btn-success {
+    background: linear-gradient(135deg, #276749, #38a169);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(56,161,105,0.35);
+}
+.btn-success:hover { background: linear-gradient(135deg, #22543d, #276749); }
+
+.btn-warning {
+    background: linear-gradient(135deg, #c05621, #dd6b20);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(221,107,32,0.3);
+}
+.btn-warning:hover { background: linear-gradient(135deg, #9c4221, #c05621); }
+
+.btn-danger {
+    background: linear-gradient(135deg, #9b2c2c, #c53030);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(197,48,48,0.3);
+}
+.btn-danger:hover { background: linear-gradient(135deg, #742a2a, #9b2c2c); }
+
+.btn-outline {
+    background: transparent;
+    color: #2b6cb0;
+    border: 1.5px solid #2b6cb0;
+}
+.btn-outline:hover { background: #ebf8ff; }
+
+.btn-sm { padding: 0.35rem 0.8rem; font-size: 0.82rem; }
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* ── Messages ── */
+.messages {
+    margin-bottom: 1.2rem;
+}
+
+.msg-error {
+    background: #fff5f5;
+    border-left: 4px solid #e53e3e;
+    color: #c53030;
+    padding: 0.8rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.msg-info {
+    background: #ebf8ff;
+    border-left: 4px solid #4299e1;
+    color: #2b6cb0;
+    padding: 0.8rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.msg-warn {
+    background: #fffbeb;
+    border-left: 4px solid #ed8936;
+    color: #c05621;
+    padding: 0.8rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* ── Employees Grid ── */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.8rem;
+}
+
+.page-header h1 {
+    font-size: 1.7rem;
+    color: #1a365d;
+    font-weight: 700;
+}
+
+.employees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.employee-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.employee-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    border-color: #4299e1;
+}
+
+.employee-card-photo {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    background: #e2e8f0;
+}
+
+.employee-card-photo-placeholder {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    color: #718096;
+}
+
+.employee-card-body {
+    padding: 1rem;
+    flex: 1;
+}
+
+.employee-card-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #2d3748;
+    margin-bottom: 0.3rem;
+}
+
+.employee-card-id {
+    font-size: 0.8rem;
+    color: #718096;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.employee-card-email {
+    font-size: 0.78rem;
+    color: #4a5568;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.employee-card-actions {
+    padding: 0 1rem 1rem;
+}
+
+.btn-card {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-top: 0.4rem;
+}
+
+.badge-male   { background: #ebf8ff; color: #2b6cb0; }
+.badge-female { background: #fef3f8; color: #b83280; }
+.badge-other  { background: #f0fff4; color: #276749; }
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #718096;
+}
+
+.empty-state .icon { font-size: 4rem; margin-bottom: 1rem; }
+.empty-state p     { font-size: 1.1rem; }
+
+/* ── Employee Detail Page ── */
+.detail-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.detail-sidebar {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    overflow: hidden;
+    text-align: center;
+}
+
+.detail-photo-wrap {
+    position: relative;
+    background: linear-gradient(135deg, #1a365d, #2b6cb0);
+    padding: 2rem 1rem 1rem;
+}
+
+.detail-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.9);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    background: #e2e8f0;
+}
+
+.detail-photo-placeholder {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    border: 4px solid rgba(255,255,255,0.9);
+}
+
+.detail-emp-id {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+.detail-sidebar-body { padding: 1.2rem; }
+
+.detail-sidebar-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 0.3rem;
+}
+
+.detail-sidebar-info {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-bottom: 0.25rem;
+}
+
+.detail-joined {
+    font-size: 0.78rem;
+    color: #a0aec0;
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.detail-main { display: flex; flex-direction: column; gap: 1.5rem; }
+
+/* Info row table */
+.info-table { width: 100%; border-collapse: collapse; }
+
+.info-table tr + tr td { border-top: 1px solid #f0f4f8; }
+
+.info-table td {
+    padding: 0.7rem 0.5rem;
+    font-size: 0.9rem;
+    vertical-align: top;
+}
+
+.info-table td:first-child {
+    font-weight: 600;
+    color: #4a5568;
+    width: 38%;
+    white-space: nowrap;
+}
+
+.info-table td:last-child { color: #2d3748; }
+
+/* Edit field inputs inside table */
+.info-table input[type="text"],
+.info-table input[type="email"],
+.info-table input[type="tel"],
+.info-table select {
+    width: 100%;
+    padding: 0.4rem 0.7rem;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: #f7fafc;
+}
+
+/* Custom fields section */
+.custom-fields-list { margin-top: 0.5rem; }
+
+.custom-field-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto auto;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.custom-field-row:last-child { border-bottom: none; }
+
+.custom-field-label {
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 0.88rem;
+}
+
+.custom-field-val { font-size: 0.9rem; color: #2d3748; }
+
+.custom-field-row input[type="text"] {
+    padding: 0.38rem 0.7rem;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    background: #f7fafc;
+    width: 100%;
+}
+
+/* Add new field form */
+.add-field-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 0.7rem;
+    align-items: end;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px dashed #e2e8f0;
+}
+
+.add-field-grid input {
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 7px;
+    font-size: 0.9rem;
+    background: #f7fafc;
+}
+
+.action-bar {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: flex-end;
+    padding: 1rem 0 0;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+    .form-grid       { grid-template-columns: 1fr; }
+    .detail-layout   { grid-template-columns: 1fr; }
+    .add-field-grid  { grid-template-columns: 1fr 1fr; }
+    .custom-field-row { grid-template-columns: 1fr 1fr auto auto; }
+    .employees-grid  { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}

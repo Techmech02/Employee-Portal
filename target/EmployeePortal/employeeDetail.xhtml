@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Employee Portal — #{detailBean.employee != null ? detailBean.employee.name : 'Profile'}</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+
+    <!-- ── Navigation Bar ── -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="icon">🏢</span> Employee Portal
+        </div>
+        <div class="navbar-links">
+            <h:form rendered="#{loginBean.loggedIn}">
+                <h:commandButton value="Logout"
+                                 action="#{loginBean.logout}"
+                                 styleClass="nav-btn"/>
+            </h:form>
+            <h:form rendered="#{not loginBean.loggedIn}">
+                <h:commandButton value="Employee Login"
+                                 action="login?faces-redirect=true"
+                                 styleClass="nav-btn"/>
+            </h:form>
+            <h:form>
+                <h:commandButton value="◀ All Employees"
+                                 action="#{detailBean.goBack}"
+                                 styleClass="nav-btn"/>
+            </h:form>
+            <h:form>
+                <h:commandButton value="➕ Register Employee"
+                                 action="index?faces-redirect=true"
+                                 styleClass="nav-btn"/>
+            </h:form>
+        </div>
+    </nav>
+
+    <!-- ── Main Content ── -->
+    <div class="container-wide">
+
+        <!-- Not found state -->
+        <h:panelGroup rendered="#{detailBean.employee == null}">
+            <div class="card" style="text-align:center; padding:3rem;">
+                <div style="font-size:3rem; margin-bottom:1rem;">❌</div>
+                <p style="color:#718096; font-size:1.1rem;">Employee not found.</p>
+                <br/>
+                <h:form>
+                    <h:commandButton value="◀ Back to Employees"
+                                     action="#{detailBean.goBack}"
+                                     styleClass="btn btn-primary"/>
+                </h:form>
+            </div>
+        </h:panelGroup>
+
+        <!-- ── Employee Found ── -->
+        <h:panelGroup rendered="#{detailBean.employee != null}">
+
+            <!-- Messages -->
+            <div class="messages" id="msgPanel">
+                <h:messages globalOnly="false" layout="list"
+                            infoClass="msg-info"
+                            warnClass="msg-warn"
+                            errorClass="msg-error"/>
+            </div>
+
+            <h:form enctype="multipart/form-data" id="detailForm">
+                <!-- Keep empId in view state for PostConstruct -->
+                <f:param name="empId" value="#{detailBean.employee.id}"/>
+
+                <div class="detail-layout">
+
+                    <!-- ── LEFT SIDEBAR ── -->
+                    <div class="detail-sidebar">
+
+                        <!-- Photo section -->
+                        <div class="detail-photo-wrap">
+                            <h:panelGroup rendered="#{not empty detailBean.employee.imagePath and
+                                                       detailBean.employee.imagePath != 'resources/uploads/default_avatar.png'}">
+                                <h:graphicImage value="/#{detailBean.employee.imagePath}"
+                                                styleClass="detail-photo"
+                                                alt="#{detailBean.employee.name}"/>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{empty detailBean.employee.imagePath or
+                                                       detailBean.employee.imagePath == 'resources/uploads/default_avatar.png'}">
+                                <div class="detail-photo-placeholder">👤</div>
+                            </h:panelGroup>
+                            <div class="detail-emp-id">#{detailBean.employee.employeeId}</div>
+                        </div>
+
+                        <!-- Sidebar body -->
+                        <div class="detail-sidebar-body">
+                            <div class="detail-sidebar-name">#{detailBean.employee.name}</div>
+                            <div class="detail-sidebar-info">📧 #{detailBean.employee.email}</div>
+                            <div class="detail-sidebar-info">📞 #{detailBean.employee.contact}</div>
+                            <span class="badge badge-#{fn:toLowerCase(detailBean.employee.gender)}">
+                                #{detailBean.employee.gender}
+                            </span>
+                            <div class="detail-joined">
+                                🗓 Registered: #{detailBean.employee.createdAt}
+                            </div>
+                        </div>
+
+                    </div><!-- /sidebar -->
+
+                    <!-- ── RIGHT MAIN PANEL ── -->
+                    <div class="detail-main">
+
+                        <!-- ── SECTION 1: Employee Summary ── -->
+                        <div class="card">
+                            <div class="card-title">📋 Employee Summary</div>
+
+                            <table class="info-table">
+                                <tr>
+                                    <td>Employee ID</td>
+                                    <td>#{detailBean.employee.employeeId}</td>
+                                </tr>
+                                <tr>
+                                    <td>Full Name</td>
+                                    <td>
+                                        <h:panelGroup rendered="#{detailBean.editMode}">
+                                            <h:inputText value="#{detailBean.employee.name}" required="true"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{not detailBean.editMode}">
+                                            <h:outputText value="#{detailBean.employee.name}"/>
+                                        </h:panelGroup>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Father's Name</td>
+                                    <td>
+                                        <h:panelGroup rendered="#{detailBean.editMode}">
+                                            <h:inputText value="#{detailBean.employee.fathersName}"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{not detailBean.editMode}">
+                                            <h:outputText value="#{detailBean.employee.fathersName}"/>
+                                        </h:panelGroup>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>
+                                        <h:panelGroup rendered="#{detailBean.editMode}">
+                                            <h:inputText value="#{detailBean.employee.email}" required="true"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{not detailBean.editMode}">
+                                            <h:outputText value="#{detailBean.employee.email}"/>
+                                        </h:panelGroup>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Contact</td>
+                                    <td>
+                                        <h:panelGroup rendered="#{detailBean.editMode}">
+                                            <h:inputText value="#{detailBean.employee.contact}"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{not detailBean.editMode}">
+                                            <h:outputText value="#{detailBean.employee.contact}"/>
+                                        </h:panelGroup>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Gender</td>
+                                    <td>
+                                        <h:panelGroup rendered="#{detailBean.editMode}">
+                                            <h:selectOneMenu value="#{detailBean.employee.gender}">
+                                                <f:selectItem itemValue="Male"   itemLabel="Male"/>
+                                                <f:selectItem itemValue="Female" itemLabel="Female"/>
+                                                <f:selectItem itemValue="Other"  itemLabel="Other"/>
+                                            </h:selectOneMenu>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{not detailBean.editMode}">
+                                            <span class="badge badge-#{fn:toLowerCase(detailBean.employee.gender)}">
+                                                #{detailBean.employee.gender}
+                                            </span>
+                                        </h:panelGroup>
+                                    </td>
+                                </tr>
+                                <!-- Change photo (edit mode only) -->
+                                <h:panelGroup rendered="#{detailBean.editMode}" layout="block"
+                                              style="display:contents">
+                                    <tr>
+                                        <td>Change Photo</td>
+                                        <td>
+                                            <h:inputFile value="#{detailBean.newImage}" accept="image/*"/>
+                                        </td>
+                                    </tr>
+                                </h:panelGroup>
+                            </table>
+
+                            <!-- Edit / Save actions -->
+                            <div class="action-bar">
+                                <h:panelGroup rendered="#{not detailBean.editMode}">
+                                    <h:commandButton value="✏ Edit Information"
+                                                     action="#{detailBean.toggleEdit}"
+                                                     styleClass="btn btn-warning"
+                                                     immediate="true"/>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{detailBean.editMode}">
+                                    <h:commandButton value="💾 Save Changes"
+                                                     action="#{detailBean.saveEmployee}"
+                                                     styleClass="btn btn-success"/>
+                                    <h:commandButton value="✖ Cancel"
+                                                     action="#{detailBean.toggleEdit}"
+                                                     styleClass="btn btn-outline"
+                                                     immediate="true"/>
+                                </h:panelGroup>
+                            </div>
+
+                        </div><!-- /card summary -->
+
+                        <!-- ── SECTION 2: Additional / Custom Fields ── -->
+                        <div class="card">
+                            <div class="card-title">🗂 Additional Information</div>
+
+                            <!-- Existing custom fields -->
+                            <h:panelGroup rendered="#{not empty detailBean.employee.customFields}">
+                                <div class="custom-fields-list">
+                                    <ui:repeat value="#{detailBean.employee.customFields}" var="cf" varStatus="vs">
+                                        <div class="custom-field-row">
+                                            <!-- Label -->
+                                            <h:inputText value="#{cf.fieldLabel}"
+                                                         styleClass="custom-field-label"
+                                                         style="font-weight:600; color:#4a5568;"
+                                                         readonly="false"/>
+                                            <!-- Value -->
+                                            <h:inputText value="#{cf.fieldValue}"
+                                                         styleClass="custom-field-val"/>
+                                            <!-- Save this field -->
+                                            <h:commandButton value="💾"
+                                                             action="#{detailBean.saveCustomField(cf)}"
+                                                             styleClass="btn btn-success btn-sm"
+                                                             title="Save this field"/>
+                                            <!-- Delete this field -->
+                                            <h:commandButton value="🗑"
+                                                             action="#{detailBean.deleteCustomField(cf.id)}"
+                                                             styleClass="btn btn-danger btn-sm"
+                                                             title="Delete this field"
+                                                             onclick="return confirm('Delete this field?');"/>
+                                        </div>
+                                    </ui:repeat>
+                                </div>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{empty detailBean.employee.customFields}">
+                                <p style="color:#a0aec0; font-size:0.9rem; margin-bottom:1rem;">
+                                    No additional fields yet. Add one below.
+                                </p>
+                            </h:panelGroup>
+
+                            <!-- Add new custom field -->
+                            <div class="add-field-grid">
+                                <div>
+                                    <label style="font-size:0.78rem;font-weight:700;color:#4a5568;
+                                                  text-transform:uppercase;letter-spacing:.5px;
+                                                  display:block;margin-bottom:.3rem;">
+                                        Field Label
+                                    </label>
+                                    <h:inputText value="#{detailBean.newFieldLabel}"
+                                                 placeholder="e.g. Department"/>
+                                </div>
+                                <div>
+                                    <label style="font-size:0.78rem;font-weight:700;color:#4a5568;
+                                                  text-transform:uppercase;letter-spacing:.5px;
+                                                  display:block;margin-bottom:.3rem;">
+                                        Field Value
+                                    </label>
+                                    <h:inputText value="#{detailBean.newFieldValue}"
+                                                 placeholder="e.g. Engineering"/>
+                                </div>
+                                <div style="display:flex;align-items:flex-end;">
+                                    <h:commandButton value="➕ Add Field"
+                                                     action="#{detailBean.addCustomField}"
+                                                     styleClass="btn btn-primary"/>
+                                </div>
+                            </div>
+
+                        </div><!-- /card custom fields -->
+
+                    </div><!-- /detail-main -->
+
+                </div><!-- /detail-layout -->
+
+            </h:form>
+
+        </h:panelGroup>
+
+    </div><!-- /container-wide -->
+
+</h:body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Employee Portal —  All Employees</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+
+    <!-- ── Navigation Bar ── -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="icon"></span> Employee Portal
+        </div>
+        <div class="navbar-links">
+            <h:form>
+                <h:commandButton value="Employee Login"
+                                 action="login?faces-redirect=true"
+                                 styleClass="nav-btn"/>
+            </h:form>
+            <h:form>
+                <h:commandButton value=" Register Employee"
+                                 action="index?faces-redirect=true"
+                                 styleClass="nav-btn"/>
+            </h:form>
+        </div>
+    </nav>
+
+    <!-- ── Main Content ── -->
+    <div class="container-wide">
+
+        <div class="page-header">
+            <h1>  All Employees</h1>
+            <span style="color:#718096; font-size:0.9rem;">
+                Click Show Details to open an employee profile
+            </span>
+        </div>
+
+        <!-- Messages -->
+        <h:messages globalOnly="true" styleClass="msg-info" layout="table"/>
+
+        <h:form id="listForm">
+
+            <!-- Employee Cards Grid -->
+            <h:panelGroup rendered="#{not empty employeeBean.employees}">
+                <div class="employees-grid">
+                    <ui:repeat value="#{employeeBean.employees}" var="emp">
+                        <div class="employee-card" title="View #{emp.name}">
+
+                            <!-- Photo or placeholder -->
+                            <h:panelGroup rendered="#{not empty emp.imagePath and
+                                                      emp.imagePath != 'resources/uploads/default_avatar.png'}">
+                                <h:graphicImage value="/#{emp.imagePath}"
+                                                styleClass="employee-card-photo"
+                                                alt="#{emp.name}"/>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{empty emp.imagePath or
+                                                      emp.imagePath == 'resources/uploads/default_avatar.png'}">
+                                <div class="employee-card-photo-placeholder"></div>
+                            </h:panelGroup>
+
+                            <!-- Card body -->
+                            <div class="employee-card-body">
+                                <div class="employee-card-name">#{emp.name}</div>
+                                <div class="employee-card-id">ID: #{emp.employeeId}</div>
+                                <div class="employee-card-email">#{emp.email}</div>
+                                <span class="badge badge-#{fn:toLowerCase(emp.gender)}">
+                                    #{emp.gender}
+                                </span>
+                            </div>
+
+                            <div class="employee-card-actions">
+                                <h:link outcome="employeeDetail"
+                                        value="Show Details"
+                                        styleClass="btn btn-primary btn-card">
+                                    <f:param name="empId" value="#{emp.id}"/>
+                                </h:link>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </h:panelGroup>
+
+            <!-- Empty state -->
+            <h:panelGroup rendered="#{empty employeeBean.employees}">
+                <div class="card">
+                    <div class="empty-state">
+                        <div class="icon"></div>
+                        <p>No employees registered yet.</p>
+                        <br/>
+                        <h:commandButton value=" Register First Employee"
+                                         action="index?faces-redirect=true"
+                                         styleClass="btn btn-primary"/>
+                    </div>
+                </div>
+            </h:panelGroup>
+
+        </h:form>
+
+    </div><!-- /container-wide -->
+
+</h:body>
+</html>
